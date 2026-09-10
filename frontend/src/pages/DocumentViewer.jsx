@@ -13,7 +13,7 @@ import {
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
 import { apiFetch } from "../config.js";
-
+import BACKEND_URL from "../config.js";
 
 export default function DocumentViewer() {
   const { course, filename } = useParams();
@@ -35,7 +35,7 @@ export default function DocumentViewer() {
   const [teasePos, setTeasePos] = useState({ x: 0, y: 0 });
   const [selectedText, setSelectedText] = useState("");
 
-  const pdfUrl = `${API_URL}/pdf/${course}/${encodeURIComponent(filename)}`;
+  const pdfUrl = `${BACKEND_URL}/pdf/${course}/${encodeURIComponent(filename)}`;
   const bottomRef = useRef(null);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
