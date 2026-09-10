@@ -1,5 +1,5 @@
 # AcademIQ
-
+🌐 **Live demo:** [academiq-seven.vercel.app](https://academiq-seven.vercel.app)
 **A course-aware AI tutor embedded directly inside a learning platform.**
 
 AcademIQ is an AI-powered learning platform built as an MSc dissertation
