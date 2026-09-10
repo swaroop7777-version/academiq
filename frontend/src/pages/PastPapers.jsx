@@ -40,8 +40,8 @@ const PAPERS = {
   }
 };
 
-import BACKEND_URL from "../config.js";
-const API_URL = BACKEND_URL;
+import { apiFetch } from "../config.js";
+
 
 export default function PastPapers() {
   const [selectedCourse, setSelectedCourse] = useState("COMP516");
@@ -54,7 +54,7 @@ export default function PastPapers() {
   const solveQuestion = async (question) => {
     setSolving(question.id);
     try {
-      const res = await fetch(`${API_URL}/ask`, {
+      const res = await apiFetch(`/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

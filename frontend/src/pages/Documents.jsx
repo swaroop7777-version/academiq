@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { FileText, Brain, Loader, FolderOpen } from "lucide-react";
 
-import BACKEND_URL from "../config.js";
-const API_URL = BACKEND_URL;
+import { apiFetch } from "../config.js";
+
 const COURSES = [
   { code: "COMP516", title: "Research Methods in CS", color: "#1fb6a6" },
   { code: "COMP315", title: "Cloud Computing", color: "#f5a623" },
@@ -18,7 +18,7 @@ export default function Documents() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${API_URL}/documents/${course}`)
+    apiFetch(`/documents/${course}`)
       .then(r => r.json())
       .then(d => { setDocs(d.documents || []); setLoading(false); })
       .catch(() => { setDocs([]); setLoading(false); });

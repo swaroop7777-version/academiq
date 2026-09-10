@@ -12,8 +12,8 @@ import {
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
-import BACKEND_URL from "../config.js";
-const API_URL = BACKEND_URL;
+import { apiFetch } from "../config.js";
+
 
 export default function DocumentViewer() {
   const { course, filename } = useParams();
@@ -43,7 +43,7 @@ export default function DocumentViewer() {
   // Load text version
   useEffect(() => {
     if (viewMode === "text" && textPages.length === 0) {
-      fetch(`${API_URL}/pdf-text/${course}/${encodeURIComponent(filename)}`)
+      apiFetch(`/pdf-text/${course}/${encodeURIComponent(filename)}`)
         .then(r => r.json())
         .then(d => setTextPages(d.pages || []))
         .catch(() => setTextPages([{ page: 1, text: "Could not load text. Make sure the API is running." }]));
@@ -72,7 +72,7 @@ export default function DocumentViewer() {
     setMessages(m => [...m, { role: "user", text: q, mode: useMode }]);
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/solve`, {
+      const res = await apiFetch(`/solve`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: q, course, mode: useMode })

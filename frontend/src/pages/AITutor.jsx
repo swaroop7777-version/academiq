@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Layout from "../components/Layout";
 import { Send, Brain, User, Loader, Sparkles, AlertCircle } from "lucide-react";
 import { getDemoTutorResponse, DEMO_MODE_BANNER } from "../demoData.js";
-import BACKEND_URL from "../config.js";
+import { apiFetch } from "../config.js";
 
 const suggestions = [
   "Explain the RAG pipeline in simple terms",
@@ -29,7 +29,7 @@ export default function AITutor() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${BACKEND_URL}/ask`, {
+      const res = await apiFetch(`/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: q, course: "COMP516", top_k: 5 })
