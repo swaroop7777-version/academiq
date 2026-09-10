@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
+import { getDemoSolveResponse } from "../demoData.js";
 import {
   FileText, Brain, ChevronRight, Loader, CheckCircle,
   Target, BookOpen, Sparkles, ArrowRight, Award, Clock
@@ -65,7 +66,8 @@ export default function PastPapers() {
       const data = await res.json();
       setSolutions(s => ({ ...s, [question.id]: data.answer }));
     } catch (err) {
-      setSolutions(s => ({ ...s, [question.id]: `⚠️ Could not reach the AI backend. Make sure the SSH tunnel and API are running.\n\nError: ${err.message}` }));
+      const demo = getDemoSolveResponse("solve");
+      setSolutions(s => ({ ...s, [question.id]: demo.answer + "\n\n⚡ Demo mode — start the Barkla backend for live AI answers grounded in your real lectures." }));
     }
     setSolving(null);
   };

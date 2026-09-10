@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import { getDemoSolveResponse } from "../demoData.js";
 import {
   ChevronLeft, ChevronRight, FileText, Type, Brain, Send, Loader,
   Sparkles, Target, Globe, Lightbulb, X, BookOpen, Maximize2, Minimize2,
@@ -79,7 +80,8 @@ export default function DocumentViewer() {
       const data = await res.json();
       setMessages(m => [...m, { role: "ai", text: data.answer, mode: useMode, sources: data.sources }]);
     } catch (err) {
-      setMessages(m => [...m, { role: "ai", text: `⚠️ Could not reach AI backend. Ensure the SSH tunnel and API are running.\n\n${err.message}` }]);
+      const demo = getDemoSolveResponse(selectedMode || mode);
+      setMessages(m => [...m, { role: "ai", text: demo.answer, isDemo: true }]);
     }
     setLoading(false);
   };

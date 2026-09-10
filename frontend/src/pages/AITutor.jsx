@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Layout from "../components/Layout";
-import { Send, Brain, User, Loader, Sparkles } from "lucide-react";
+import { Send, Brain, User, Loader, Sparkles, AlertCircle } from "lucide-react";
+import { getDemoTutorResponse, DEMO_MODE_BANNER } from "../demoData.js";
 
 const suggestions = [
   "Explain the RAG pipeline in simple terms",
@@ -36,9 +37,13 @@ export default function AITutor() {
       const data = await res.json();
       setMessages(m => [...m, { role: "assistant", content: data.answer }]);
     } catch (err) {
+      // Backend unreachable — fall back to demo mode
+      const demo = getDemoTutorResponse(q, "COMP516");
       setMessages(m => [...m, {
         role: "assistant",
-        content: `⚠️ Could not reach the AI backend. Make sure the SSH tunnel is running:\nssh -L 8000:localhost:8000 sgrtatap@barklalogin1.liv.ac.uk -N\n\nError: ${err.message}`
+        content: demo.answer,
+        sources: demo.sources,
+        isDemo: true
       }]);
     }
     setLoading(false);
@@ -87,11 +92,25 @@ export default function AITutor() {
                     <Brain size={16} color="white" />
                   </div>
                 )}
-                <div style={{ maxWidth: "70%", padding: "12px 16px", borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-                  background: m.role === "user" ? "#1fb6a6" : "var(--bg-secondary)",
-                  color: m.role === "user" ? "white" : "var(--text-primary)",
-                  fontSize: "14px", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
-                  {m.content}
+                <div style={{ maxWidth: "70%" }}>
+                  <div style={{ padding: "12px 16px", borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+                    background: m.role === "user" ? "#1fb6a6" : "var(--bg-secondary)",
+                    color: m.role === "user" ? "white" : "var(--text-primary)",
+                    fontSize: "14px", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
+                    {m.content}
+                  </div>
+                  {m.sources && m.sources.length > 0 && m.sources[0] !== "demo-mode" && (
+                    <div style={{ marginTop: "4px", fontSize: "11px", color: "var(--text-secondary)",
+                      display: "flex", alignItems: "center", gap: "4px", paddingLeft: "4px" }}>
+                      📚 Source: {m.sources.join(", ")}
+                    </div>
+                  )}
+                  {m.isDemo && (
+                    <div style={{ marginTop: "4px", fontSize: "11px", color: "#f5a623",
+                      display: "flex", alignItems: "center", gap: "4px", paddingLeft: "4px" }}>
+                      ⚡ Demo mode — start the Barkla backend for live AI answers
+                    </div>
+                  )}
                 </div>
                 {m.role === "user" && (
                   <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "#0f2744",
