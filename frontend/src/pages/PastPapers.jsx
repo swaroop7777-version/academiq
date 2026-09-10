@@ -40,7 +40,8 @@ const PAPERS = {
   }
 };
 
-const API_URL = "http://localhost:8000";
+import BACKEND_URL from "../config.js";
+const API_URL = BACKEND_URL;
 
 export default function PastPapers() {
   const [selectedCourse, setSelectedCourse] = useState("COMP516");

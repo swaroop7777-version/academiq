@@ -1,3 +1,4 @@
+import BACKEND_URL from "../config.js";
 import { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -82,7 +83,7 @@ function AIPanel({ slide, courseData, onClose, isExpanded }) {
     const contextualQ = `[Slide: ${slide.title} | Topic: ${slide.topic}] ${q}`;
 
     try {
-      const res = await fetch("http://localhost:8000/ask", {
+      const res = await fetch(`${BACKEND_URL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: contextualQ, course: courseData.code, top_k: 4 })

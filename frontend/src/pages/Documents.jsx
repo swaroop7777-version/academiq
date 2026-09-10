@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { FileText, Brain, Loader, FolderOpen } from "lucide-react";
 
-const API_URL = "http://localhost:8000";
+import BACKEND_URL from "../config.js";
+const API_URL = BACKEND_URL;
 const COURSES = [
   { code: "COMP516", title: "Research Methods in CS", color: "#1fb6a6" },
   { code: "COMP315", title: "Cloud Computing", color: "#f5a623" },

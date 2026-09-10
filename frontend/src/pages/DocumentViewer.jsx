@@ -12,7 +12,8 @@ import {
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
-const API_URL = "http://localhost:8000";
+import BACKEND_URL from "../config.js";
+const API_URL = BACKEND_URL;
 
 export default function DocumentViewer() {
   const { course, filename } = useParams();
