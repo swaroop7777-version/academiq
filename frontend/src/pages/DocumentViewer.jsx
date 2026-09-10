@@ -35,7 +35,10 @@ export default function DocumentViewer() {
   const [teasePos, setTeasePos] = useState({ x: 0, y: 0 });
   const [selectedText, setSelectedText] = useState("");
 
-  const pdfUrl = `${BACKEND_URL}/pdf/${course}/${encodeURIComponent(filename)}`;
+  const pdfUrl = {
+    url: `${BACKEND_URL}/pdf/${course}/${encodeURIComponent(filename)}`,
+    httpHeaders: { "ngrok-skip-browser-warning": "true" }
+  };
   const bottomRef = useRef(null);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
